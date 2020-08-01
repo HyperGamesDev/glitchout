@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace glitchout{
 public enum perks{
     empty,
     hardened,
@@ -97,8 +98,8 @@ public class PlayerPerks : MonoBehaviour{
                 if(spectres[rndm]!=null){   
                     Vector2 selfPos=transform.position;
                     Vector2 spectrePos=spectres[rndm].transform.position;
-                    GetComponent<Player>().xpos=spectrePos.x;
-                    GetComponent<Player>().ypos=spectrePos.y;
+                    GetComponent<Player>().pos.x=spectrePos.x;
+                    GetComponent<Player>().pos.y=spectrePos.y;
                     foreach(GameObject spectre in spectres){var spectrePosC=spectre.transform.position;spectre.GetComponent<FollowStrict>().xx=spectrePos.x-spectrePosC.x;spectre.GetComponent<FollowStrict>().yy=spectrePos.y-spectrePosC.y;}
                     spectres[rndm].transform.position=selfPos;
                     //spectres[rndm].GetComponent<FollowStrict>().targetObj=null;
@@ -172,4 +173,5 @@ public class PlayerPerks : MonoBehaviour{
             if(id==2)go.GetComponent<SpriteRenderer>().color=Color.blue;
         //}
     }
+}
 }

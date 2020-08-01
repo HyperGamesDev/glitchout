@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+namespace glitchout{
 public class PerksList : MonoBehaviour{
     public static PerksList instance;
     public Sprite[] perkList;
@@ -42,4 +43,5 @@ public class PerksList : MonoBehaviour{
             //Array.Resize(ref playerPerks.playPerks,perkList.Length);
         }
     }
+}
 }

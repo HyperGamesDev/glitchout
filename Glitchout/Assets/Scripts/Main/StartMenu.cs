@@ -1,10 +1,12 @@
+using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class StartMenu : MonoBehaviour{
+namespace glitchout{
+public class StartMenu : MonoBehaviourPunCallbacks{
     public static StartMenu instance;
     public static bool GameIsStarted = false;
     public GameObject startMenuUI;
@@ -19,7 +21,8 @@ public class StartMenu : MonoBehaviour{
         gameSession = FindObjectOfType<GameSession>();
         if(startMenuUI==null){startMenuUI=transform.GetChild(0).gameObject;}
         if(perksMenuUI==null){startMenuUI=transform.GetChild(1).gameObject;}
-        Open();
+        
+        if(FindObjectOfType<NetworkController>()!=null){StartGame();}else{Open();}
         //shop=FindObjectOfType<Shop>();
     }
     void Update(){
@@ -120,4 +123,5 @@ public class StartMenu : MonoBehaviour{
     }
 
     public void PreviousGameSpeed(){gameSession.gameSpeed = prevGameSpeed;}
+}
 }

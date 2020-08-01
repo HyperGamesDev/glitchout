@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+namespace glitchout{
 public class Screenflash : MonoBehaviour{
     [SerializeField] Color damageFlashColor;
     [SerializeField] float damageFlashSpeed;
@@ -40,4 +41,5 @@ public class Screenflash : MonoBehaviour{
         player.flamed = false;
         player.electricified = false;*/
     }
+}
 }

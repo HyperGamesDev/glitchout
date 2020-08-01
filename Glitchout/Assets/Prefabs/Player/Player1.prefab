@@ -224,3 +224,15 @@ MonoBehaviour:
   unstableTimer: -4
   splitTime: 5
   splitTimer: -4
+  splitTimeInst: 0.38
+  splitTimerInst: -4
+  spectres:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  spectreSwitchTime: 8
+  spectreSwitchTimer: -4
+  recoveryHealth: 16
+  recoveryLifetime: 3.4
+  recoveryLifetimer: -4

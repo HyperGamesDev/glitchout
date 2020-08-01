@@ -8,6 +8,7 @@ using BayatGames.SaveGameFree;
 using BayatGames.SaveGameFree.Encoders;
 using BayatGames.SaveGameFree.Serializers;
 
+namespace glitchout{
 public class SaveSerial : MonoBehaviour{
 	public static SaveSerial instance;
 	[SerializeField] string filename = "playerData";
@@ -184,4 +185,5 @@ public class SaveSerial : MonoBehaviour{
 class SaveData{
     public int savedHscore;
 }*/
+}
 }

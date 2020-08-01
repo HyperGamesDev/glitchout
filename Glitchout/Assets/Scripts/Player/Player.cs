@@ -1,13 +1,16 @@
-﻿using System.Linq;
+﻿using Photon.Pun;
+using Photon.Realtime;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace glitchout{
 /*public enum playerNum{
     One,
     Two
 }*/
-public class Player : MonoBehaviour{
+public class Player : MonoBehaviourPunCallbacks, IPunObservable{
     [HeaderAttribute("Setup")]
     //[SerializeField]public playerNum playerNum=playerNum.One;
     [SerializeField]public int playerNum;
@@ -25,8 +28,7 @@ public class Player : MonoBehaviour{
     public float health;
     public float damage=-4;
     public float angle;
-    public float xpos;
-    public float ypos;
+    public Vector2 pos;
     public float dmgTimer;
     public float hitTimer;
 
@@ -42,6 +44,7 @@ public class Player : MonoBehaviour{
     Shake shake;
     GameObject glowVFX;
     void Start(){
+        if(FindObjectOfType<NetworkController>()==null){PhotonNetwork.OfflineMode=true;}
         shake = GameObject.FindObjectOfType<Shake>();
         
         health=maxHealth;
@@ -59,8 +62,7 @@ public class Player : MonoBehaviour{
             if(dmgTimer>0)dmgTimer-=Time.deltaTime;
             if(hitTimer>0)hitTimer-=Time.deltaTime;
             else hitTimer=-4;
-            Move();
-            Die();
+            if((GetComponent<PhotonView>()!=null&&photonView.IsMine)||GetComponent<PhotonView>()==null){Move();Die();}
         }
         var ps=glowVFX.GetComponent<ParticleSystem>().main;
         var em=glowVFX.GetComponent<ParticleSystem>().emission;
@@ -76,6 +78,7 @@ public class Player : MonoBehaviour{
 
     private void Move(){
         //if(playerNum==playerNum.One){
+        if(FindObjectOfType<NetworkController>()==null){
         if(playerNum==0){
             keyUp=Input.GetKey(KeyCode.W);
             keyDown=Input.GetKey(KeyCode.S);
@@ -88,6 +91,12 @@ public class Player : MonoBehaviour{
             keyLeft=Input.GetKey(KeyCode.LeftArrow);
             keyRight=Input.GetKey(KeyCode.RightArrow);
         }
+        }else{
+            keyUp=Input.GetKey(KeyCode.W);
+            keyDown=Input.GetKey(KeyCode.S);
+            keyLeft=Input.GetKey(KeyCode.A);
+            keyRight=Input.GetKey(KeyCode.D);
+        }
         if(keyLeft||keyRight)hMove=true;
         else hMove=false;
         if(keyUp||keyDown)vMove=true;
@@ -99,25 +108,25 @@ public class Player : MonoBehaviour{
         //xpos=transform.position.x;
 
         if(keyUp&&!hMove){
-            ypos+=yspeed*Time.timeScale;
+            pos.y+=yspeed*Time.timeScale;
             angle+=rotationSpeed*Time.timeScale;
         }if(keyDown&&!hMove){
-            ypos-=yspeed*Time.timeScale;
+            pos.x-=yspeed*Time.timeScale;
             angle-=rotationSpeed*Time.timeScale;
         }
         if(keyLeft){
-            xpos-=xspeed*Time.timeScale;
+            pos.x-=xspeed*Time.timeScale;
             angle-=rotationSpeed*Time.timeScale;
-            if(keyUp){ypos+=yspeed*Time.timeScale;}
-            if(keyDown){ypos-=yspeed*Time.timeScale;}
+            if(keyUp){pos.y+=yspeed*Time.timeScale;}
+            if(keyDown){pos.y-=yspeed*Time.timeScale;}
         }if(keyRight){
-            xpos+=xspeed*Time.timeScale;
+            pos.x+=xspeed*Time.timeScale;
             angle+=rotationSpeed*Time.timeScale;
-            if(keyUp){ypos+=yspeed*Time.timeScale;}
-            if(keyDown){ypos-=yspeed*Time.timeScale;}
+            if(keyUp){pos.y+=yspeed*Time.timeScale;}
+            if(keyDown){pos.y-=yspeed*Time.timeScale;}
         }
 
-        transform.position=new Vector2(xpos,ypos);
+        transform.position=pos;
         
         if(angle>=360)angle=0;
         if(angle<0)angle=360;
@@ -137,18 +146,18 @@ public class Player : MonoBehaviour{
         var xx=Random.Range(-xRange,xRange);
         var yy=Random.Range(-yRange,yRange);
 
-        xpos+=xx;
-        ypos+=yy;
+        pos.x+=xx;
+        pos.y+=yy;
         GameAssets.instance.VFX("GlitchHit",transform.position,0.2f);
         AudioManager.instance.Play("Hit");
     }
     public void TpMiddle(){
-        xpos=0;
-        ypos=0;
+        pos.x=0;
+        pos.y=0;
         AudioManager.instance.Play("Hit");
     }public void TpRandom(){
-        xpos=Random.Range(-xBound,xBound);
-        ypos=Random.Range(-yBound,yBound);
+        pos.x=Random.Range(-xBound,xBound);
+        pos.y=Random.Range(-yBound,yBound);
     }
 
     private void Die(){
@@ -172,12 +181,12 @@ public class Player : MonoBehaviour{
         pperks.recoveryLifetimer=pperks.recoveryLifetime;
         //AudioManager.instance.Play("Death");
         AudioManager.instance.Play("Respawn");
-        GameAssets.instance.VFX("Respawn",new Vector2(xpos,ypos),0.1f);
+        GameAssets.instance.VFX("Respawn",new Vector2(pos.x,pos.y),0.1f);
     }public void Respawn(){
         health=maxHealth;
         TpRandom();
         UnHide();
-        GameAssets.instance.VFX("Respawn",new Vector2(xpos,ypos),0.3f);
+        GameAssets.instance.VFX("Respawn",new Vector2(pos.x,pos.y),0.3f);
         AudioManager.instance.Play("Respawn");
     }
     private void Hide(){
@@ -191,6 +200,14 @@ public class Player : MonoBehaviour{
     }
 
     private void OnTriggerEnter2D(Collider2D other){
+        if((GetComponent<PhotonView>()!=null&&photonView.IsMine)||GetComponent<PhotonView>()==null){TrigEnter2D(other);}
+        
+    }
+    private void OnTriggerStay2D(Collider2D other){
+        if((GetComponent<PhotonView>()!=null&&photonView.IsMine)||GetComponent<PhotonView>()==null){TrigStay2D(other);}
+    }
+
+    private void TrigEnter2D(Collider2D other){
         //damage=GetComponent<DamageDealer>().GetDmgPlayer();
         if(CompareTag(other.tag)){
             //Player
@@ -211,7 +228,7 @@ public class Player : MonoBehaviour{
         }
         dmgTimer=0;
     }
-    private void OnTriggerStay2D(Collider2D other){
+    private void TrigStay2D(Collider2D other){
         if(dmgTimer<=0){
             //damage=GetComponent<DamageDealer>().GetDmgPlayerStay();
             if(CompareTag(other.tag)){
@@ -226,4 +243,21 @@ public class Player : MonoBehaviour{
             dmgTimer=dmgFreq;
         }
     }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info){
+        if(stream.IsWriting){
+            stream.SendNext(health);
+            stream.SendNext(damage);
+            stream.SendNext(pos);
+            stream.SendNext(hidden);
+        }else{
+            this.health=(float)stream.ReceiveNext();
+            this.damage=(float)stream.ReceiveNext();
+            this.pos=(Vector2)stream.ReceiveNext();
+            this.hidden=(bool)stream.ReceiveNext();
+
+            //float lag = Mathf.Abs((float) (PhotonNetwork.Time - info.timestamp));
+        }
+    }
+}
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
+namespace glitchout{
 public class InvertAllAudio : MonoBehaviour{
     public bool revertMusic;
     public MusicPlayer musicPlayer;
@@ -45,4 +46,5 @@ public class InvertAllAudio : MonoBehaviour{
         if(offTimer>0)offTimer-=Time.deltaTime;
         if(offTimer<=0&&revertMusic==true)this.enabled=false;
     }
+}
 }

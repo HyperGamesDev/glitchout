@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+namespace glitchout{
 public class ValueDisplay : MonoBehaviour{
     [SerializeField]string value;
     [SerializeField]bool update=true;
@@ -20,6 +21,7 @@ public class ValueDisplay : MonoBehaviour{
     }
 
     void Update(){
+        Array.Resize(ref players,FindObjectsOfType<Player>().Length);
         Player[] allPlayers=FindObjectsOfType<Player>();
         foreach(Player player in allPlayers){
             //if(player.playerNum==playerNum.One){player1=player;}
@@ -45,4 +47,5 @@ public class ValueDisplay : MonoBehaviour{
             if(GetComponent<TMPro.TMP_InputField>()!=null)GetComponent<TMPro.TMP_InputField>().text=txt;
         }
     }
+}
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
 
+namespace glitchout{
 public class Loader : MonoBehaviour{
     public float timer=1f;
     public AudioMixer audioMixer;
@@ -57,4 +58,5 @@ public class Loader : MonoBehaviour{
         timer -= Time.deltaTime;
         if(timer<=0){ if(SceneManager.GetActiveScene().name=="Loading") { SceneManager.LoadScene("Menu"); } Destroy(gameObject); }
     }
+}
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+namespace glitchout{
 public class PauseMenu : MonoBehaviour{
     public static PauseMenu instance;
     public static bool GameIsPaused = false;
@@ -56,4 +57,5 @@ public class PauseMenu : MonoBehaviour{
         SceneManager.LoadScene("Menu");
     }
     public void PreviousGameSpeed(){gameSession.gameSpeed = prevGameSpeed;}
+}
 }

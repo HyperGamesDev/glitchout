@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+namespace glitchout{
 public enum barType{
     Horizontal,
     Vertical,
@@ -15,12 +16,13 @@ public class BarValue : MonoBehaviour{
     [SerializeField] float value;
     //[SerializeField] string maxValueName;
     [SerializeField] float maxValue;
-    Player[] players;
+    public Player[] players;
     void Start(){
         Array.Resize(ref players,FindObjectsOfType<Player>().Length);
     }
 
     void Update(){
+        Array.Resize(ref players,FindObjectsOfType<Player>().Length);
         Player[] allPlayers=FindObjectsOfType<Player>();
         foreach(Player player in allPlayers){
             //if(player.playerNum==playerNum.One){player1=player;}
@@ -39,4 +41,5 @@ public class BarValue : MonoBehaviour{
         if(barType==barType.Vertical){transform.localScale=new Vector2(1,value/maxValue);}
         if(barType==barType.Fill){GetComponent<Image>().fillAmount=value/maxValue;}
     }
+}
 }

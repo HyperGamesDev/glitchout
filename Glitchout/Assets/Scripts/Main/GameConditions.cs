@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+namespace glitchout{
 public class GameConditions : MonoBehaviour{
     public static GameConditions instance;
     public float timer;
@@ -84,4 +85,5 @@ public class GameConditions : MonoBehaviour{
     public void SetKillsLimitEnabled(bool isKillsLimit){
         killsEnabled = isKillsLimit;
     }
+}
 }

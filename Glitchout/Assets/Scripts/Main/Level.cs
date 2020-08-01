@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+namespace glitchout{
 public class Level : MonoBehaviour{
     public static Level instance;
     GameSession gameSession;
@@ -60,9 +61,8 @@ public class Level : MonoBehaviour{
         FindObjectOfType<GameSession>().gameSpeed=1f;
         Time.timeScale = 1f;
     }
-    public void LoadGameModeChooseScene(){SceneManager.LoadScene("GameModeChoose");}
+    public void LoadOnlineMatchmakingScene(){SceneManager.LoadScene("OnlineMatchmaking");}
     public void LoadOptionsScene(){SceneManager.LoadScene("Options");}
-    public void LoadInventoryScene(){SceneManager.LoadScene("Inventory");}
     public void RestartGame(){
         //PauseMenu.GameIsPaused=false;
         /*FindObjectOfType<GameSession>().SaveHighscore();
@@ -104,4 +104,5 @@ public class Level : MonoBehaviour{
     public void OpenGameJolt(){
         Application.OpenURL("https://gamejolt.com/@HyperGamesDev");
     }
+}
 }

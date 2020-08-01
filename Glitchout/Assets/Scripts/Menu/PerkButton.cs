@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+namespace glitchout{
 public class PerkButton : MonoBehaviour{
     public int perkID=0;
     public perks perkEnum;
@@ -36,4 +37,5 @@ public class PerkButton : MonoBehaviour{
     public void SetPerk(){
         StartMenu.instance.SetPerk(perkEnum);
     }
+}
 }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace glitchout{
 public class Spectre : MonoBehaviour{
     public int playerID;
     GameObject glowVFX;
@@ -33,4 +34,5 @@ public class Spectre : MonoBehaviour{
             }*/
         }
     }
+}
 }

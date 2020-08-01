@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.Audio;
 using UnityEngine.Rendering.PostProcessing;
 
+namespace glitchout{
 public class SettingsMenu : MonoBehaviour{
     //Settings settings;
     GameSession gameSession;
@@ -85,4 +86,5 @@ public class SettingsMenu : MonoBehaviour{
     public void PlayDing(){
         audioSource.Play();
     }
+}
 }

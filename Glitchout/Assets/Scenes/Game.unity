@@ -384,6 +384,7 @@ GameObject:
   - component: {fileID: 285985994}
   - component: {fileID: 285986000}
   - component: {fileID: 285986001}
+  - component: {fileID: 285986002}
   m_Layer: 8
   m_Name: Player2
   m_TagString: Player
@@ -417,8 +418,7 @@ MonoBehaviour:
   health: 100
   damage: -4
   angle: 0
-  xpos: 0
-  ypos: 0
+  pos: {x: 0, y: 0}
   dmgTimer: 0
   hitTimer: -4
   hidden: 0
@@ -527,7 +527,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 285985993}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.03, y: 6.36, z: -5}
+  m_LocalPosition: {x: 0, y: 5.84, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -594,8 +594,6 @@ MonoBehaviour:
   splitTimer: -4
   splitTimeInst: 0.38
   splitTimerInst: -4
-  spectrePrefab: {fileID: 4662837967160001273, guid: b2625266fe25fdf4c848739b9f3e42d6,
-    type: 3}
   spectres:
   - {fileID: 0}
   - {fileID: 0}
@@ -603,6 +601,30 @@ MonoBehaviour:
   - {fileID: 0}
   spectreSwitchTime: 8
   spectreSwitchTimer: -4
+  recoveryHealth: 16
+  recoveryLifetime: 3.4
+  recoveryLifetimer: -4
+--- !u!114 &285986002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 285985993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents: []
+  viewIdField: 1
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &428050683 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1137447772072343336, guid: 904286a91a0ca1245a96a5d96f036ce2,
@@ -3066,12 +3088,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2529771964178614092, guid: c1a7bd4c78edf5c48a14508f091f013a,
-        type: 3}
-      propertyPath: spectrePrefab
-      value: 
-      objectReference: {fileID: 4662837967160001273, guid: b2625266fe25fdf4c848739b9f3e42d6,
-        type: 3}
     - target: {fileID: 7011926872291180623, guid: c1a7bd4c78edf5c48a14508f091f013a,
         type: 3}
       propertyPath: m_Name
@@ -3080,7 +3096,7 @@ PrefabInstance:
     - target: {fileID: 7011926872291180625, guid: c1a7bd4c78edf5c48a14508f091f013a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.01
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7011926872291180625, guid: c1a7bd4c78edf5c48a14508f091f013a,
         type: 3}
@@ -3134,3 +3150,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1a7bd4c78edf5c48a14508f091f013a, type: 3}
+--- !u!1 &7011926871570622337 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7011926872291180623, guid: c1a7bd4c78edf5c48a14508f091f013a,
+    type: 3}
+  m_PrefabInstance: {fileID: 7011926871570622336}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7011926871570622338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7011926871570622337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents: []
+  viewIdField: 2
+  InstantiationId: 0
+  isRuntimeInstantiated: 0

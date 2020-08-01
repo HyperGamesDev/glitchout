@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Photon.Pun;
+using Photon.Realtime;
+using System;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,12 +9,14 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 using UnityEngine.Rendering.PostProcessing;
-public class GameSession : MonoBehaviour{
+
+namespace glitchout{
+public class GameSession : MonoBehaviourPunCallbacks, IPunObservable{
     public static GameSession instance;
     [HeaderAttribute("Current Player Values")]
     public List<Player> players;
     public int[] score;
-    public float[] kills;
+    public int[] kills;
     public float[] respawnTimer;
     [HeaderAttribute("Score Values")]
     public int score_kill=20;
@@ -54,7 +58,7 @@ public class GameSession : MonoBehaviour{
 
     private void Awake(){
         instance=this;
-        SetUpSingleton();
+        //SetUpSingleton();
     }
     private void SetUpSingleton(){
         int numberOfObj = FindObjectsOfType<GameSession>().Length;
@@ -70,8 +74,8 @@ public class GameSession : MonoBehaviour{
     }
     private void Update()
     {
-        if(SceneManager.GetActiveScene().name=="Game"&&resize==false){resize=true;}
-        if(SceneManager.GetActiveScene().name=="Game"&&resize==true){
+        if((SceneManager.GetActiveScene().name=="Game"||SceneManager.GetActiveScene().name=="MultiGame")&&resize==false){resize=true;}
+        if((SceneManager.GetActiveScene().name=="Game"||SceneManager.GetActiveScene().name=="MultiGame")&&resize==true){
             players=FindObjectsOfType<Player>().ToList();
             Array.Resize(ref score,players.Count);
             Array.Resize(ref kills,players.Count);
@@ -264,4 +268,23 @@ public class GameSession : MonoBehaviour{
         xppopupHud.GetComponentInChildren<TMPro.TextMeshProUGUI>().text="-"+Mathf.Abs(xp).ToString();
     }*/
     //public void PlayDenySFX(){AudioManager.instance.Play("Deny");}
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info){
+        if(stream.IsWriting){
+            stream.SendNext(players);
+            stream.SendNext(score);
+            stream.SendNext(kills);
+            stream.SendNext(respawnTimer);
+            stream.SendNext(gameSpeed);
+            stream.SendNext(speedChanged);
+        }else{
+            this.players=(List<Player>)stream.ReceiveNext();
+            this.score=(int[])stream.ReceiveNext();
+            this.kills=(int[])stream.ReceiveNext();
+            this.respawnTimer=(float[])stream.ReceiveNext();
+            this.gameSpeed=(float)stream.ReceiveNext();
+            this.speedChanged=(bool)stream.ReceiveNext();
+        }
+    }
+}
 }

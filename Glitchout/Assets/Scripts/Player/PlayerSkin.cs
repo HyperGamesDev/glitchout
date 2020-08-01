@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+namespace glitchout{
 public class PlayerSkin : MonoBehaviour{
     public int playerID=-1;
     public int skinID;
@@ -54,4 +55,5 @@ public class PlayerSkin : MonoBehaviour{
         skinID++;
         //foreach(PlayerSkin skin in FindObjectsOfType<PlayerSkin>()){if(skin.skinID!=skinID+1){skinID++;}else{skinID+=2;}}
     }
+}
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+namespace glitchout{
 public class EndMenu : MonoBehaviour{
     public static EndMenu instance;
     public GameObject endMenuUI;
@@ -59,4 +60,5 @@ public class EndMenu : MonoBehaviour{
     }
 
     public void PreviousGameSpeed(){gameSession.gameSpeed = prevGameSpeed;}
+}
 }
