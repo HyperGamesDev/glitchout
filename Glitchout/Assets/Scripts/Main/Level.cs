@@ -13,8 +13,10 @@ public class Level : MonoBehaviour{
     //float prevGameSpeed;
     private void Awake()
     {
+        if(FindObjectOfType<GameSession>()!=null){
         gameSession = FindObjectOfType<GameSession>();
         gameSession.gameSpeed=1f;
+        }
         Time.timeScale = 1f;
         SetUpSingleton();
     }

@@ -6,12 +6,14 @@ using UnityEngine.UI;
 
 namespace glitchout{
 public enum barType{
-    Horizontal,
-    Vertical,
+    HorizontalR,
+    HorizontalL,
+    VerticalU,
+    VerticalD,
     Fill
 }
 public class BarValue : MonoBehaviour{
-    [SerializeField] barType barType=barType.Horizontal;
+    [SerializeField] barType barType=barType.HorizontalR;
     [SerializeField] string valueName;
     [SerializeField] float value;
     //[SerializeField] string maxValueName;
@@ -37,8 +39,10 @@ public class BarValue : MonoBehaviour{
         if(valueName.Contains("health_")){string[] x=valueName.Split('_');int xx=int.Parse(x[1]);if(players[xx].hidden!=true){value=players[xx].health;maxValue=players[xx].maxHealth;}else{value=GameSession.instance.respawnTimer[xx]; maxValue=GameSession.instance.respawnTime;}} 
         if(valueName.Contains("score_")){string[] x=valueName.Split('_');int xx=int.Parse(x[1]);value=GameSession.instance.score[xx];maxValue=GameSession.instance.score[xx];}
 
-        if(barType==barType.Horizontal){transform.localScale=new Vector2(value/maxValue,1);}
-        if(barType==barType.Vertical){transform.localScale=new Vector2(1,value/maxValue);}
+        if(barType==barType.HorizontalR){transform.localScale=new Vector2(value/maxValue,transform.localScale.y);}
+        if(barType==barType.HorizontalL){transform.localScale=new Vector2(-(value/maxValue),transform.localScale.y);}
+        if(barType==barType.VerticalU){transform.localScale=new Vector2(transform.localScale.x,-(value/maxValue));}
+        if(barType==barType.VerticalD){transform.localScale=new Vector2(transform.localScale.x,value/maxValue);}
         if(barType==barType.Fill){GetComponent<Image>().fillAmount=value/maxValue;}
     }
 }

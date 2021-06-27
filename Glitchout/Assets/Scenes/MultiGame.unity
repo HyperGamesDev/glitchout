@@ -580,7 +580,12 @@ PrefabInstance:
     - target: {fileID: -5661330914134672404, guid: 2187d17e87e167843a47ecaa776cb1b9,
         type: 3}
       propertyPath: OwnershipTransfer
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5661330914134672404, guid: 2187d17e87e167843a47ecaa776cb1b9,
+        type: 3}
+      propertyPath: Synchronization
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2670168737584117729, guid: 2187d17e87e167843a47ecaa776cb1b9,
         type: 3}

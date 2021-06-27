@@ -58,6 +58,7 @@ public class GameSession : MonoBehaviourPunCallbacks, IPunObservable{
 
     private void Awake(){
         instance=this;
+        if(speedChanged==true)speedChanged=false;
         //SetUpSingleton();
     }
     private void SetUpSingleton(){
@@ -70,6 +71,7 @@ public class GameSession : MonoBehaviourPunCallbacks, IPunObservable{
     }
     private void Start()
     {
+        if(speedChanged==true)speedChanged=false;
         //FindObjectOfType<SaveSerial>().highscore = 0;
     }
     private void Update()
@@ -92,6 +94,7 @@ public class GameSession : MonoBehaviourPunCallbacks, IPunObservable{
         }
         Player[] allPlayers=FindObjectsOfType<Player>();
         foreach(Player player in allPlayers){
+            players=FindObjectsOfType<Player>().ToList();
             players[player.playerNum]=player;
         }
 
@@ -104,6 +107,8 @@ public class GameSession : MonoBehaviourPunCallbacks, IPunObservable{
         }
 
         if(SceneManager.GetActiveScene().name=="Game"&&PauseMenu.GameIsPaused==true){gameSpeed=0;}
+
+        if(SceneManager.GetActiveScene().name=="MultiGame"){speedChanged=false;gameSpeed=1;}
 
         Time.timeScale = gameSpeed;
         //Set speed to normal
@@ -270,14 +275,14 @@ public class GameSession : MonoBehaviourPunCallbacks, IPunObservable{
     //public void PlayDenySFX(){AudioManager.instance.Play("Deny");}
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info){
-        if(stream.IsWriting){
+        if(PhotonNetwork.IsMasterClient){
             stream.SendNext(players);
             stream.SendNext(score);
             stream.SendNext(kills);
             stream.SendNext(respawnTimer);
             stream.SendNext(gameSpeed);
             stream.SendNext(speedChanged);
-        }else{
+        }else if(!PhotonNetwork.IsMasterClient||stream.IsReading){
             this.players=(List<Player>)stream.ReceiveNext();
             this.score=(int[])stream.ReceiveNext();
             this.kills=(int[])stream.ReceiveNext();

@@ -47,6 +47,12 @@ public class Player : MonoBehaviourPunCallbacks, IPunObservable{
         if(FindObjectOfType<NetworkController>()==null){PhotonNetwork.OfflineMode=true;}
         shake = GameObject.FindObjectOfType<Shake>();
         
+        //Set PlayerNum
+        foreach(Player player in GameSession.instance.players){
+            //var playerN=GameSession.instance.players.Where(x => x.GetComponent<Player>().playerNum != GetComponent<Player>().playerNum).SingleOrDefault();
+            if(GameSession.instance.players.Contains(GameSession.instance.players.Where(x => x.playerNum == playerNum).SingleOrDefault())){playerNum++;}
+        }
+
         health=maxHealth;
         if(damage==-4)damage=GetComponent<DamageDealer>().GetDmgPlayer();
 
@@ -111,7 +117,7 @@ public class Player : MonoBehaviourPunCallbacks, IPunObservable{
             pos.y+=yspeed*Time.timeScale;
             angle+=rotationSpeed*Time.timeScale;
         }if(keyDown&&!hMove){
-            pos.x-=yspeed*Time.timeScale;
+            pos.y-=yspeed*Time.timeScale;
             angle-=rotationSpeed*Time.timeScale;
         }
         if(keyLeft){
@@ -200,11 +206,13 @@ public class Player : MonoBehaviourPunCallbacks, IPunObservable{
     }
 
     private void OnTriggerEnter2D(Collider2D other){
-        if((GetComponent<PhotonView>()!=null&&photonView.IsMine)||GetComponent<PhotonView>()==null){TrigEnter2D(other);}
+        TrigEnter2D(other);
+        //if((GetComponent<PhotonView>()!=null&&photonView.IsMine)||GetComponent<PhotonView>()==null){TrigEnter2D(other);}
         
     }
     private void OnTriggerStay2D(Collider2D other){
-        if((GetComponent<PhotonView>()!=null&&photonView.IsMine)||GetComponent<PhotonView>()==null){TrigStay2D(other);}
+        TrigStay2D(other);
+        //if((GetComponent<PhotonView>()!=null&&photonView.IsMine)||GetComponent<PhotonView>()==null){TrigStay2D(other);}
     }
 
     private void TrigEnter2D(Collider2D other){
@@ -249,11 +257,13 @@ public class Player : MonoBehaviourPunCallbacks, IPunObservable{
             stream.SendNext(health);
             stream.SendNext(damage);
             stream.SendNext(pos);
+            //stream.SendNext(GetComponent<SpriteRenderer>());
             stream.SendNext(hidden);
         }else{
             this.health=(float)stream.ReceiveNext();
             this.damage=(float)stream.ReceiveNext();
             this.pos=(Vector2)stream.ReceiveNext();
+            //this.GetComponent<SpriteRenderer>().sprite=(Sprite)stream.ReceiveNext();
             this.hidden=(bool)stream.ReceiveNext();
 
             //float lag = Mathf.Abs((float) (PhotonNetwork.Time - info.timestamp));
